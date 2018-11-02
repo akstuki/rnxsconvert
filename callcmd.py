@@ -17,7 +17,7 @@ import shutil
 '''
 rinex output directory
 '''
-path_rnx="rnx"
+path_rnx = "rnx"
 
 def renameAndMove(newname, path):
     filelist = []
@@ -75,4 +75,9 @@ if __name__ == '__main__':
     '''
     path = "data"
     pathtemp = "data2"
+    if False == os.path.exists(pathtemp):
+        os.makedirs(pathtemp)
+    if False == os.path.exists(path_rnx):
+        os.makedirs(path_rnx)
+
     do_convert(path, pathtemp)
