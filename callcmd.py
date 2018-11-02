@@ -4,11 +4,6 @@ import shutil
 '''
 * @file     callcmd.py
 * @brief    python script to convert Unicore *.obs files to rinex files
-* @details  what you need to config:
-            1. ext name
-            2. path_rnx for output
-            3. *.obs path
-            4. work path
 * @author   name:ChenXiaoqiang mail:309905109@qq.com
 * @date     2016-10-14
 * @history  2016-10-14 new created
