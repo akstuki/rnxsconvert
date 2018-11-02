@@ -15,58 +15,51 @@ import shutil
 '''
 
 '''
-ext name
-'''
-EXTO = '.18O'
-EXTN = '.18N'
-EXTC = '.18C'
-EXTG = '.18G'
-
-'''
 rinex output directory
 '''
-path_rnx="rnx"    
+path_rnx="rnx"
 
 def renameAndMove(newname, path):
     filelist = []
     for root, dirs, files in os.walk(path):
         filelist=files
-    if(len(filelist)==0):
+    if len(filelist) == 0:
         print ('no files in path %s' % path)
         return
 
     for var in filelist:
         filename = var
-        fullname = path+'\\'+filename
-        print (fullname)
+        fullname = os.path.join(path, filename)
         ext = os.path.splitext(filename)[1]
-        if(ext==EXTN):
-            shutil.move(fullname,  path_rnx+'\\'+newname+EXTN)
-        if(ext==EXTC):
-            shutil.move(fullname,  path_rnx+'\\'+newname+EXTC)
-        if(ext==EXTG):
-            shutil.move(fullname,  path_rnx+'\\'+newname+EXTG)
-        if(ext==EXTO):
-            shutil.move(fullname,  path_rnx+'\\'+newname+EXTO)
-            
+        if is_rinex_ext(ext):
+            shutil.move(fullname, os.path.join(path_rnx, newname+ext))
+
+def is_rinex_ext(ext: str):
+    if ext[1].isdigit() == False:
+        return False
+    if  ext[2].isdigit() == False:
+        return False
+    if ext[3] not in ['N', 'G', 'O', 'C']:
+        return False
+    return True
+
 def do_convert(path, path2):
     filelist = []
     for root, dirs, files in os.walk(path):
         filelist = files
-    if len(filelist)==0:
+    if len(filelist) == 0:
         print ('no files in path %s' % path)
         return
-  
+
     for num , val in enumerate(filelist):
         print ("{num} in {total}".format(num = num, total = len(filelist)))
         filename = val
-        fullname = path + '\\' + filename
-        print (fullname)
+        fullname = os.path.join(path, filename)
         ext = os.path.splitext(filename)[1]
-        
-        fullname2 = path2 + '\\' + filename
-        shutil.copy(fullname,  fullname2)
-    
+
+        fullname2 = os.path.join(path2, filename)
+        shutil.copy(fullname, fullname2)
+
         if ext != '.obs' and ext != '.OBS':
             print ('{file} skip'.format(file = filename))
             continue
